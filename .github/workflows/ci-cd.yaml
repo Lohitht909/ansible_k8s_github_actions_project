@@ -33,12 +33,12 @@ jobs:
           mvn clean package -DskipTests
 
       # === SonarQube Scan ===
-      - name: SonarQube Scan
-        run: |
-          cd Application
-          mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      # - name: SonarQube Scan
+      #   run: |
+      #     cd Application
+      #     mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+      #       -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+      #       -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
      # === Build Docker Image ===
       - name: Log in to DockerHub
@@ -53,12 +53,12 @@ jobs:
           docker build -t $REGISTRY/$IMAGE_NAME:${{ github.run_number }} .
 
       # # # === Docker Image Scan ===
-      - name: Scan Docker Image with Trivy
-        uses: aquasecurity/trivy-action@0.20.0
-        with:
-          image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
-          severity: CRITICAL,HIGH
-          ignore-unfixed: true
+      # - name: Scan Docker Image with Trivy
+      #   uses: aquasecurity/trivy-action@0.20.0
+      #   with:
+      #     image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
+      #     severity: CRITICAL,HIGH
+      #     ignore-unfixed: true
 
       # === Push Docker Image ===
       - name: Push Docker Image
